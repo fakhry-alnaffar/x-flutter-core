@@ -6,9 +6,17 @@ typedef OnCustomError<T> = Object Function(
   Response<dynamic>? response,
 );
 
-class DioErrorProcessor {
-  const DioErrorProcessor();
+abstract class DioErrorProcessor {
+  DataResponse<T> processError<T>(
+    DioException e, {
+    OnCustomError? onCustomError,
+  });
+}
 
+class InternalDioErrorProcessor implements DioErrorProcessor {
+  const InternalDioErrorProcessor();
+
+  @override
   DataResponse<T> processError<T>(
     DioException e, {
     OnCustomError? onCustomError,

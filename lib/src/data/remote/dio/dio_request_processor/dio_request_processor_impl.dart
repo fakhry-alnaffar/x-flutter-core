@@ -27,14 +27,15 @@ class DioRequestProcessorImpl implements DioRequestProcessor {
   final bool useRetry;
   @protected
   final List<int> retryStatusCodes;
-  final _errorProcessor = const DioErrorProcessor();
+  final DioErrorProcessor _errorProcessor;
 
   DioRequestProcessorImpl({
     this.internetConnectionChecker,
     this.useRetry = false,
     this.maxAttemptsCount = defaultMaxAttemptsCount,
     this.retryStatusCodes = defaultRetryStatusCodes,
-  });
+    DioErrorProcessor? errorProcessor,
+  }) : _errorProcessor = errorProcessor ?? const InternalDioErrorProcessor();
 
   @override
   Future<DataResponse<R>> processRequest<T, R>({

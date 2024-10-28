@@ -8,6 +8,7 @@ import 'package:onix_flutter_core/src/data/remote/dio/api_client.dart';
 import 'package:onix_flutter_core/src/data/remote/dio/dio_request_processor/dio_request_processor.dart';
 import 'package:onix_flutter_core/src/data/remote/dio/dio_request_processor/dio_request_processor_impl.dart';
 import 'package:onix_flutter_core/src/data/remote/dio/params/api_client_params.dart';
+import 'package:onix_flutter_core/src/data/remote/error/dio_error_processor.dart';
 
 abstract class DioClientModule {
   ApiClient makeApiClient(ApiClientParams params) => ApiClient(
@@ -24,12 +25,15 @@ abstract class DioClientModule {
         ),
       );
 
-  DioRequestProcessor makeDioRequestProcessor() => kIsWeb
-      ? DioRequestProcessorImpl()
-      : DioRequestProcessorImpl(
-          internetConnectionChecker: ConnectionCheckerImpl(
-            connection: InternetConnection(),
-            connectivity: Connectivity(),
-          ),
-        );
+  DioRequestProcessor makeDioRequestProcessor(
+          {DioErrorProcessor? errorProcessor}) =>
+      kIsWeb
+          ? DioRequestProcessorImpl(errorProcessor: errorProcessor)
+          : DioRequestProcessorImpl(
+              errorProcessor: errorProcessor,
+              internetConnectionChecker: ConnectionCheckerImpl(
+                connection: InternetConnection(),
+                connectivity: Connectivity(),
+              ),
+            );
 }

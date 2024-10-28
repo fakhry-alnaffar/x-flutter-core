@@ -1,3 +1,4 @@
+import 'package:example/base_api_client_example/core/arch/data/remote/custom_dio_error_processor.dart';
 import 'package:example/base_api_client_example/data/log_interceptor.dart';
 import 'package:get_it/get_it.dart';
 import 'package:onix_flutter_core/onix_flutter_core.dart';
@@ -25,7 +26,9 @@ void initializeDi(GetIt getIt) {
 
   // Registering DioRequestProcessor
   getIt.registerLazySingleton<DioRequestProcessor>(
-    dioClientModule.makeDioRequestProcessor,
+    () => dioClientModule.makeDioRequestProcessor(
+      errorProcessor: CustomDioErrorProcessor(),
+    ),
   );
 
   // Registering UserSource

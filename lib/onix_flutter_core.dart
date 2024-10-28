@@ -17,3 +17,5 @@ export 'src/domain/common/converter/mapper.dart';
 export 'src/domain/entity/common/data_response.dart' show DataResponse;
 export 'src/domain/entity/common/operation_status.dart' show OperationStatus;
 export 'src/domain/entity/common/result.dart' show Result;
+export 'src/data/remote/error/dio_error_processor.dart'
+    show DioErrorProcessor, OnCustomError;
