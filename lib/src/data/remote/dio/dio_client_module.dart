@@ -1,16 +1,20 @@
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
-import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
-import 'package:onix_flutter_core/src/data/remote/base/base_api_client.dart';
-import 'package:onix_flutter_core/src/data/remote/connection_checker/connection_checker_impl.dart';
-import 'package:onix_flutter_core/src/data/remote/dio/api_client.dart';
-import 'package:onix_flutter_core/src/data/remote/dio/dio_request_processor/dio_request_processor.dart';
-import 'package:onix_flutter_core/src/data/remote/dio/dio_request_processor/dio_request_processor_impl.dart';
-import 'package:onix_flutter_core/src/data/remote/dio/params/api_client_params.dart';
-import 'package:onix_flutter_core/src/data/remote/error/dio_error_processor.dart';
+import 'package:onix_flutter_core/onix_flutter_core.dart';
+import 'package:onix_flutter_core/src/data/remote/base/retry_policy.dart';
+import 'package:onix_flutter_core/src/data/remote/dio/internal_dio_retry_policy.dart';
 
 abstract class DioClientModule {
+  /// Number of attempts to re-execute the request
+  static const defaultMaxAttemptsCount = 2;
+
+  /// Error codes that require re-execution of the request (without bad request)
+  /// Basic list of error codes that require re-execution of the request
+  static const defaultRetryStatusCodes = [
+    HttpStatus.badGateway,
+    HttpStatus.serviceUnavailable,
+  ];
+
   ApiClient makeApiClient(ApiClientParams params) => ApiClient(
         interceptors: params.interceptors,
         options: BaseOptions(
@@ -25,15 +29,20 @@ abstract class DioClientModule {
         ),
       );
 
-  DioRequestProcessor makeDioRequestProcessor(
-          {DioErrorProcessor? errorProcessor}) =>
-      kIsWeb
-          ? DioRequestProcessorImpl(errorProcessor: errorProcessor)
-          : DioRequestProcessorImpl(
-              errorProcessor: errorProcessor,
-              internetConnectionChecker: ConnectionCheckerImpl(
-                connection: InternetConnection(),
-                connectivity: Connectivity(),
-              ),
-            );
+  RequestProcessor createInternalDioRequestProcessor({
+    RetryPolicy? retryPolicy,
+    ConnectionChecker? connectionChecker,
+    ErrorProcessor? errorProcessor,
+    OnCustomError? customErrorParser,
+  }) =>
+      InternalDioRequestProcessor(
+        retryPolicy: InternalDioRetryPolicy(
+          maxAttemptsCount: defaultMaxAttemptsCount,
+          retryStatusCodes: defaultRetryStatusCodes,
+        ),
+        errorProcessor: errorProcessor,
+        connectionChecker: (kIsWeb) ? null : connectionChecker,
+        onCustomError: customErrorParser,
+      );
+
 }

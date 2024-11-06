@@ -6,15 +6,15 @@ class UserSourceImpl implements UserSource {
   static const String _users = '/users';
 
   final ApiClient _apiClient;
-  final DioRequestProcessor _dioRequestProcessor;
+  final RequestProcessor _requestProcessor;
 
-  const UserSourceImpl(this._apiClient, this._dioRequestProcessor);
+  const UserSourceImpl(this._apiClient, this._requestProcessor);
 
   @override
   Future<DataResponse<UserModelList>> getUsers() {
-    return _dioRequestProcessor.processRequest(
+    return _requestProcessor.processRequest(
       onRequest: () => _apiClient.client.get(_users),
-      onResponse: (response) {
+      onParse: (response) {
         return UserModelList.fromJson(response.data);
       },
     );

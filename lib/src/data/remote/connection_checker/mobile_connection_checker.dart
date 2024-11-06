@@ -1,17 +1,13 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:onix_flutter_core/onix_flutter_core.dart';
-import 'package:onix_flutter_core/src/data/remote/connection_checker/connectivity_ext.dart';
+import 'package:onix_flutter_core/src/data/remote/extension/connectivity_ext.dart';
 
-class ConnectionCheckerImpl implements ConnectionChecker {
-  final InternetConnection _connection;
-  final Connectivity _connectivity;
+class MobileConnectionChecker implements ConnectionChecker {
+  final InternetConnection _connection = InternetConnection();
+  final Connectivity _connectivity = Connectivity();
 
-  const ConnectionCheckerImpl({
-    required InternetConnection connection,
-    required Connectivity connectivity,
-  })  : _connection = connection,
-        _connectivity = connectivity;
+  MobileConnectionChecker();
 
   @override
   Future<bool> hasConnection() async {

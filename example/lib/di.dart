@@ -1,5 +1,5 @@
-import 'package:example/base_api_client_example/core/arch/data/remote/custom_dio_error_processor.dart';
 import 'package:example/base_api_client_example/data/log_interceptor.dart';
+import 'package:example/base_api_client_example/util/custom_error_parser.dart';
 import 'package:get_it/get_it.dart';
 import 'package:onix_flutter_core/onix_flutter_core.dart';
 
@@ -25,17 +25,19 @@ void initializeDi(GetIt getIt) {
   );
 
   // Registering DioRequestProcessor
-  getIt.registerLazySingleton<DioRequestProcessor>(
-    () => dioClientModule.makeDioRequestProcessor(
-      errorProcessor: CustomDioErrorProcessor(),
+  getIt.registerLazySingleton<RequestProcessor>(
+    () => dioClientModule.createInternalDioRequestProcessor(
+      customErrorParser: CustomErrorParser.parse,
     ),
   );
+
+  //getIt.registerLazySingleton(Request)
 
   // Registering UserSource
   getIt.registerLazySingleton<UserSource>(
     () => UserSourceImpl(
       getIt<ApiClient>(instanceName: 'apiInstanceName'),
-      getIt<DioRequestProcessor>(),
+      getIt<RequestProcessor>(),
     ),
   );
 
