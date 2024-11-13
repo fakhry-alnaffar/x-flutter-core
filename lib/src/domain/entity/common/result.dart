@@ -1,6 +1,6 @@
 import 'package:onix_flutter_core_models/onix_flutter_core_models.dart';
 
-abstract final class Result<T> {
+abstract class Result<T> {
 
   const Result();
 

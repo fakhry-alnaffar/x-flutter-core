@@ -21,6 +21,6 @@ export 'src/data/remote/dio/internal_dio_error_processor.dart'
 export 'src/data/remote/dio/interceptor/cache_interceptor.dart';
 export 'src/data/remote/dio/params/api_client_params.dart' show ApiClientParams;
 export 'src/domain/common/converter/mapper.dart';
-export 'src/domain/entity/common/data_response.dart' show DataResponse;
+export 'src/domain/entity/common/data_response.dart';
 export 'src/domain/entity/common/operation_status.dart' show OperationStatus;
-export 'src/domain/entity/common/result.dart' show Result;
+export 'src/domain/entity/common/result.dart';

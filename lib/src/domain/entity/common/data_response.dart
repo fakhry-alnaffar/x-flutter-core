@@ -1,5 +1,5 @@
 
-abstract final class DataResponse<T> {
+abstract class DataResponse<T> {
   const DataResponse();
 
   T get data => (this as DataResponseSuccess).data;
