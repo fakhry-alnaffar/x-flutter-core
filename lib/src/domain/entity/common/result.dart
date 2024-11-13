@@ -1,25 +1,39 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:onix_flutter_core_models/onix_flutter_core_models.dart';
 
-part 'result.freezed.dart';
+abstract final class Result<T> {
 
-@freezed
-class Result<T> with _$Result<T> {
-  bool get success => this is _ResultSuccess<T>;
+  const Result();
+
+  factory Result.success(T data) => ResultSuccess<T>(data);
+
+  factory Result.error({required Failure failure}) => ResultError<T>(failure);
+
+  bool get isSuccess => this is ResultSuccess<T>;
 
   bool get isError => this is ResultError;
 
+
   ///WARNING. ALWAYS CHECK success == true before call
-  T get data => (this as _ResultSuccess<T>).data;
+  T get data => (this as ResultSuccess<T>).data;
 
   ///WARNING. ALWAYS CHECK isError == true before call
   ResultError get error => this as ResultError;
-
-  const Result._();
-
-  const factory Result.success(T data) = _ResultSuccess;
-
-  const factory Result.error({
-    required Failure failure,
-  }) = ResultError;
 }
+
+final class ResultSuccess<T> extends Result<T> {
+  final T _data;
+
+  @override
+  T get data => _data;
+
+  ResultSuccess(T data) : _data = data;
+}
+
+final class ResultError<T> extends Result<T> {
+  final Failure _failure;
+
+  Failure get failure => _failure;
+
+  ResultError(Failure failure) : _failure = failure;
+}
+

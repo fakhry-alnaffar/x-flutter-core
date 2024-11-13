@@ -1,34 +1,86 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'data_response.freezed.dart';
+abstract final class DataResponse<T> {
+  const DataResponse();
 
-@freezed
-sealed class DataResponse<T> with _$DataResponse {
-  T get data => (this as _DataResponseSuccess).data;
+  T get data => (this as DataResponseSuccess).data;
 
-  const DataResponse._();
+  bool isSuccess() => this is DataResponseSuccess;
 
-  const factory DataResponse.success(T data) = _DataResponseSuccess;
+  bool isError() => this is! DataResponseSuccess;
 
-  const factory DataResponse.undefinedError(
+  factory DataResponse.success(T data) => DataResponseSuccess(data);
+
+  factory DataResponse.undefinedError(
     Object? errorObject, [
     int? statusCode,
-  ]) = _UndefinedError;
+  ]) =>
+      UndefinedError(
+        errorObject,
+        statusCode,
+      );
 
-  const factory DataResponse.apiError(
+  factory DataResponse.apiError(
     Object error, [
     int? statusCode,
-  ]) = _ApiError;
+  ]) =>
+      ApiError(
+        error,
+        statusCode,
+      );
 
-  const factory DataResponse.notConnected() = _NoInternetConnection;
+  factory DataResponse.notConnected() => NoInternetConnection();
 
-  const factory DataResponse.unauthorized() = _Unauthorized;
+  factory DataResponse.unauthorized() => Unauthorized();
 
-  const factory DataResponse.tooManyRequests() = _TooManyRequests;
+  factory DataResponse.tooManyRequests() => TooManyRequests();
 
-  const factory DataResponse.canceledRequest() = _CanceledRequest;
-
-  bool isSuccess() => this is _DataResponseSuccess;
-
-  bool isError() => this is! _DataResponseSuccess;
+  factory DataResponse.canceledRequest() => CanceledRequest();
 }
+
+final class DataResponseSuccess<T> extends DataResponse<T> {
+  final T _data;
+
+  @override
+  T get data => _data;
+
+  DataResponseSuccess(T data) : _data = data;
+}
+
+final class UndefinedError<T> extends DataResponse<T> {
+  final Object? _errorObject;
+  final int? _statusCode;
+
+  Object? get errorObject => _errorObject;
+
+  int? get statusCode => _statusCode;
+
+  UndefinedError(
+    Object? errorObject, [
+    int? statusCode,
+  ])  : _errorObject = errorObject,
+        _statusCode = statusCode;
+}
+
+final class ApiError<T> extends DataResponse<T> {
+  final Object _error;
+  final int? _statusCode;
+
+  Object get error => _error;
+
+  int? get statusCode => _statusCode;
+
+  ApiError(
+    Object error, [
+    int? statusCode,
+  ])  : _error = error,
+        _statusCode = statusCode;
+}
+
+final class NoInternetConnection<T> extends DataResponse<T> {}
+
+final class Unauthorized<T> extends DataResponse<T> {}
+
+final class TooManyRequests<T> extends DataResponse<T> {}
+
+final class CanceledRequest<T> extends DataResponse<T> {}
+

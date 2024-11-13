@@ -63,7 +63,7 @@ class InternalDioRequestProcessor extends RequestProcessor {
       }
     } on DioException catch (e) {
       if (e.type == DioExceptionType.cancel) {
-        return const DataResponse.canceledRequest();
+        return DataResponse.canceledRequest();
       }
 
       return _errorProcessor.processError(

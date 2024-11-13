@@ -3,7 +3,6 @@ import 'package:onix_flutter_core/src/domain/entity/common/data_response.dart';
 import 'package:onix_flutter_core_models/onix_flutter_core_models.dart';
 
 abstract class ServerErrorMapper {
-
   Failure? onCustomError(
     Object data,
     int? statusCode,
@@ -13,26 +12,49 @@ abstract class ServerErrorMapper {
     DataResponse<T> failure,
   ) {
     try {
-      return failure.maybeWhen(
-        undefinedError: (error, statusCode) => ApiUndefinedFailure(
-          statusCode: statusCode,
-          message: error.toString(),
-        ),
-        apiError: (error, statusCode) {
-          final customError = onCustomError(error, statusCode);
-          return customError ??
-              ApiFailure(
-                ServerFailure.response,
-                statusCode: statusCode,
-                message: error.toString(),
-              );
-        },
-        notConnected: ConnectionFailure.new,
-        unauthorized: ApiUnauthorizedFailure.new,
-        tooManyRequests: ApiTooManyRequestsFailure.new,
-        canceledRequest: CanceledRequestFailure.new,
-        orElse: ApiUnknownFailure.new,
-      );
+      switch (failure) {
+        case DataResponseSuccess success:
+          {
+            break;
+          }
+        case UndefinedError u:
+          {
+            return ApiUndefinedFailure(
+              statusCode: u.statusCode,
+              message: u.errorObject.toString(),
+            );
+          }
+        case ApiError e:
+          {
+            final customError = onCustomError(
+              e.error,
+              e.statusCode,
+            );
+            return customError ??
+                ApiFailure(
+                  ServerFailure.response,
+                  statusCode: e.statusCode,
+                  message: e.error.toString(),
+                );
+          }
+        case NoInternetConnection _:
+          {
+            return ConnectionFailure();
+          }
+        case Unauthorized _:
+          {
+            return ApiUnauthorizedFailure();
+          }
+        case TooManyRequests _:
+          {
+            return ApiTooManyRequestsFailure();
+          }
+        case CanceledRequest _:
+          {
+            return const CanceledRequestFailure();
+          }
+      }
+      return ApiUnknownFailure();
     } catch (e, trace) {
       if (kDebugMode) {
         print('MapCommonServerError::getServerFailureDetails');

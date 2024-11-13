@@ -64,7 +64,7 @@ class BaseApiClientExample extends StatelessWidget {
 
   Future<List<UserEntity>?> _getUsers() async {
     final result = await GetIt.I.get<UserRepository>().getUsers();
-    if (result.success) {
+    if (result.isSuccess) {
       return result.data;
     }
 

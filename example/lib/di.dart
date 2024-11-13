@@ -19,6 +19,7 @@ void initializeDi(GetIt getIt) {
         defaultConnectTimeout: 5000,
         defaultReceiveTimeout: 5000,
         interceptors: [LogInterceptor()],
+        headers: {}
       ),
     ),
     instanceName: 'apiInstanceName',
