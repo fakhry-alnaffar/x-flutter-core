@@ -32,6 +32,7 @@ class InternalDioRequestProcessor extends RequestProcessor {
   Future<DataResponse<R>> processRequest<T, R>({
     required OnRequest<T> onRequest,
     required OnParse<R> onParse,
+    OnCustomError? onCustomRequestError,
     bool checkNetworkConnection = true,
   }) async {
     //step 1: check connection
@@ -68,7 +69,7 @@ class InternalDioRequestProcessor extends RequestProcessor {
 
       return _errorProcessor.processError(
         e,
-        onCustomError: _onCustomError,
+        onCustomError: onCustomRequestError ?? _onCustomError,
       );
     } catch (e, trace) {
       if (kDebugMode) {

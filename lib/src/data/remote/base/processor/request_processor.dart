@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:onix_flutter_core/src/data/remote/base/connection_checker.dart';
+import 'package:onix_flutter_core/src/data/remote/base/processor/error_processor.dart';
 import 'package:onix_flutter_core/src/domain/entity/common/data_response.dart';
 
 ///Custom function to provide request Future
@@ -14,7 +15,9 @@ abstract class RequestProcessor {
   Future<DataResponse<R>> processRequest<T, R>({
     required OnRequest<T> onRequest,
     required OnParse<R> onParse,
+    OnCustomError? onCustomRequestError,
     bool checkNetworkConnection = true,
+
   });
 
   @protected

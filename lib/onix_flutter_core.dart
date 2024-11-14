@@ -17,6 +17,11 @@ export 'src/data/remote/base/processor/error_processor.dart'
     show ErrorProcessor, OnCustomError;
 export 'src/data/remote/dio/internal_dio_error_processor.dart'
     show InternalDioErrorProcessor;
+export 'src/data/remote/connection_checker/always_have_connection.dart'
+    show AlwaysHaveConnection;
+export 'src/data/remote/connection_checker/mobile_connection_checker.dart'
+    show MobileConnectionChecker;
+
 
 export 'src/data/remote/dio/interceptor/cache_interceptor.dart';
 export 'src/data/remote/dio/params/api_client_params.dart' show ApiClientParams;

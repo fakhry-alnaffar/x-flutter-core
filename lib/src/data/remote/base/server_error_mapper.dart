@@ -13,10 +13,6 @@ abstract class ServerErrorMapper {
   ) {
     try {
       switch (failure) {
-        case DataResponseSuccess success:
-          {
-            break;
-          }
         case UndefinedError u:
           {
             return ApiUndefinedFailure(
