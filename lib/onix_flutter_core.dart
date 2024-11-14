@@ -21,6 +21,8 @@ export 'src/data/remote/connection_checker/always_have_connection.dart'
     show AlwaysHaveConnection;
 export 'src/data/remote/connection_checker/mobile_connection_checker.dart'
     show MobileConnectionChecker;
+export 'src/data/remote/base/retry_policy.dart'
+    show RetryPolicy;
 
 
 export 'src/data/remote/dio/interceptor/cache_interceptor.dart';

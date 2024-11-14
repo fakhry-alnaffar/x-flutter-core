@@ -1,12 +1,10 @@
-This package contains some base classes designed to improve experience of using Http networking
-functionality.
+This package contains some base classes designed to improve experience of using HTTP networking
+functionality. 
 
-## Contents
+Initially works with Dio api client but you free to extend implementation to use any other api client.
 
-* Custom api client based on Dio
-* Custom error handling technics
 
-### Networking
+## Usage
 
 Create a new api client:
 
@@ -19,8 +17,26 @@ final apiClient = dioClientModule.makeApiClient(
     defaultConnectTimeout: 5000,
     defaultReceiveTimeout: 5000,
     interceptors: [LogInterceptor()],
+    headers: {} //optional
     ),
 );
+
+```
+
+Create custom error handler to parse Api error responses globally:
+
+```
+
+class CustomErrorHandler {
+
+  const CustomErrorHandler._();
+  static Object handle(
+    int statusCode,
+    dynamic response,
+  ) {
+    return MyApiErrorResponse.fromJson(response as Map<String, dynamic>);
+  }
+}
 
 ```
 
@@ -28,7 +44,9 @@ Create request processor:
 
 ```
 
-final processor = dioClientModule.makeDioRequestProcessor();
+final processor = dioClientModule.createInternalDioRequestProcessor(
+      customErrorParser: MyCustomErrorHandler.handle,
+    ),;
 
 ```
 
@@ -36,13 +54,16 @@ Make a request:
 
 ```
 
-onCustomError: (response) {
-    final responseType = response?.requestOptions.responseType;
-     if (responseType == ResponseType.json) {
+_requestProcessor.processRequest(
+      onRequest: () => _apiClient.client.get('https://api.url/getProfile'),
+      onParse: (response) {
         return MyResponse.fromJson(response.data);
-    }
-    return MyError.unknownError();
-}
+      },
+      //optional
+      onCustomRequestError: (code, data){
+        return MyCustomError.fromJson(response);
+      },
+    );
 
 ```
 
@@ -58,5 +79,16 @@ if (response.isSuccess()) {
 }
 
 ``` 
+
+## Create custom HTTP client implementation
+
+To create you own implementation based on this package you follow these steps:
+
+1. Create your request processor implementation class extended from `RequestProcessor`
+2. Implement `processRequest` function code and optional `hasInternetConnection` function code. See InternalDioRequestProcessor for reference. 
+3. Create your error processor implementation class extended from `ErrorProcessor`
+4. Implement `processError` function code. See `InternalDioErrorProcessor` for reference.
+
+
 
 

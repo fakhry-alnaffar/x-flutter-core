@@ -17,7 +17,7 @@ dependencies:
   dio: ^5.7.0
   onix_flutter_core:
     path: ../
-  onix_flutter_core_models: ^0.0.1
+  onix_flutter_core_models: ^0.0.2
 
 dev_dependencies:
   flutter_test:
