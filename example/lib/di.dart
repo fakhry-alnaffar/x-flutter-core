@@ -32,8 +32,6 @@ void initializeDi(GetIt getIt) {
     ),
   );
 
-  //getIt.registerLazySingleton(Request)
-
   // Registering UserSource
   getIt.registerLazySingleton<UserSource>(
     () => UserSourceImpl(

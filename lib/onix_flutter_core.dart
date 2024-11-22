@@ -1,6 +1,8 @@
 library onix_flutter_core;
 
-export 'src/data/local/prefs/base_preferences.dart';
+export 'src/data/local/prefs/shared_preferences_storage.dart';
+export 'src/data/local/base/key_value_storage.dart';
+export 'src/data/local/base/key_value_reloadable_storage.dart';
 export 'src/data/remote/base/base_api_client.dart' show BaseApiClient;
 export 'src/data/remote/base/http_status.dart' show HttpStatus;
 export 'src/data/remote/base/server_error_mapper.dart'
