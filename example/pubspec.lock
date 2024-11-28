@@ -276,7 +276,7 @@ packages:
     source: hosted
     version: "4.0.0"
   flutter_secure_storage:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: flutter_secure_storage
       sha256: "165164745e6afb5c0e3e3fcc72a012fb9e58496fb26ffb92cf22e16a821e85d0"
@@ -543,11 +543,12 @@ packages:
   onix_flutter_core_models:
     dependency: "direct main"
     description:
-      name: onix_flutter_core_models
-      sha256: "6e247447fb877221d4a8c3512da491db9da86af746cf6cfa91c9d9eaa79b7588"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.0.2"
+      path: "."
+      ref: "feat/exception_migration"
+      resolved-ref: "507fd8cc83068d304f9346262ac9f6ba73819f3e"
+      url: "https://github.com/OnixFlutterTeam/onix-flutter-core-models.git"
+    source: git
+    version: "0.0.3"
   package_config:
     dependency: transitive
     description:

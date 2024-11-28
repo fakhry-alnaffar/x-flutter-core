@@ -32,4 +32,3 @@ export 'src/data/remote/dio/params/api_client_params.dart' show ApiClientParams;
 export 'src/domain/common/converter/mapper.dart';
 export 'src/domain/entity/common/data_response.dart';
 export 'src/domain/entity/common/operation_status.dart' show OperationStatus;
-export 'src/domain/entity/common/result.dart';
