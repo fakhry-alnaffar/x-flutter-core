@@ -17,10 +17,7 @@ dependencies:
   dio: ^5.7.0
   onix_flutter_core:
     path: ../
-  onix_flutter_core_models:
-    git:
-      url: https://github.com/OnixFlutterTeam/onix-flutter-core-models.git
-      ref: feat/exception_migration
+  onix_flutter_core_models: ^0.0.3-beta.1
 
 dev_dependencies:
   flutter_test:

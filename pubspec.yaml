@@ -17,10 +17,7 @@ dependencies:
   pretty_dio_logger: ^1.4.0
   retry: ^3.1.2
   shared_preferences: ^2.2.3
-  onix_flutter_core_models:
-    git:
-      url: https://github.com/OnixFlutterTeam/onix-flutter-core-models.git
-      ref: feat/exception_migration
+  onix_flutter_core_models: ^0.0.3-beta.1
   internet_connection_checker_plus: ^2.5.2
 
 dev_dependencies:
