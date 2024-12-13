@@ -1,6 +1,6 @@
 name: onix_flutter_core
 description: "Onix Flutter Core package"
-version: 0.0.5
+version: 0.0.6-beta.1
 repository: https://github.com/OnixFlutterTeam/onix-flutter-core
 
 environment:
@@ -8,21 +8,21 @@ environment:
   flutter: ">=3.19.0"
 
 dependencies:
-  connectivity_plus: ^6.0.5
+  connectivity_plus: ^6.1.1
   dio: ^5.7.0
-  dio_cache_interceptor: ^3.5.0
+  dio_cache_interceptor: ^3.5.1
   flutter:
     sdk: flutter
   flutter_secure_storage: ^9.2.2
   pretty_dio_logger: ^1.4.0
   retry: ^3.1.2
-  shared_preferences: ^2.2.3
+  shared_preferences: ^2.3.3
   onix_flutter_core_models: ^0.0.3-beta.1
   internet_connection_checker_plus: ^2.5.2
 
 dev_dependencies:
   flutter_lints: ^4.0.0
-  build_runner: ^2.4.9
+  build_runner: ^2.4.13
   mockito: ^5.4.4
   test: ^1.25.7
   connectivity_plus_platform_interface: ^2.0.1
