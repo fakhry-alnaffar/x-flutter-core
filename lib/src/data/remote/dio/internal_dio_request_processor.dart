@@ -46,7 +46,7 @@ class InternalDioRequestProcessor extends RequestProcessor {
     }
     try {
       if (_retryPolicy != null) {
-        final response = retry(
+        final response = await retry(
           onRequest,
           maxAttempts: _retryPolicy.maxAttemptsCount,
           retryIf: (exception) => _retryPolicy.onRetry(

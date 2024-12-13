@@ -11,7 +11,7 @@ const _initialData = {
 };
 
 void main() {
-  final BasePreferences basePrefs = BasePreferences();
+  final SharedPreferencesStorage basePrefs = SharedPreferencesStorage();
 
   group(
     'Unit tests for the get method',
