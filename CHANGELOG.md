@@ -1,3 +1,8 @@
+## 0.0.6-beta.1
+
+* Code improvements
+* Switched to beta core components
+
 ## 0.0.5
 
 * Added unit tests for the BasePreferences class
