@@ -4,10 +4,15 @@ import 'package:onix_flutter_core/onix_flutter_core.dart';
 import 'package:onix_flutter_core/src/data/remote/extension/connectivity_ext.dart';
 
 class MobileConnectionChecker implements ConnectionChecker {
-  final InternetConnection _connection = InternetConnection();
-  final Connectivity _connectivity = Connectivity();
+  final InternetConnection _connection;
 
-  MobileConnectionChecker();
+  final Connectivity _connectivity;
+
+  MobileConnectionChecker({
+    InternetConnection? internetConnection,
+    Connectivity? connectivity,
+  })  : _connection = internetConnection ?? InternetConnection(),
+        _connectivity = connectivity ?? Connectivity();
 
   @override
   Future<bool> hasConnection() async {
