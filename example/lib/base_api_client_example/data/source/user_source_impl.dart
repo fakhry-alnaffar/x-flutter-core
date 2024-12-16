@@ -15,7 +15,7 @@ class UserSourceImpl implements UserSource {
     return _requestProcessor.processRequest(
       onRequest: () => _apiClient.client.get(_users),
       onParse: (response) {
-        return UserModelList.fromJson(response);
+        return UserModelList.fromJson(response.data);
       },
     );
   }

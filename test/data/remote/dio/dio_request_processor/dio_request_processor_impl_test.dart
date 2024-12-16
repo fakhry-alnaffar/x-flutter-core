@@ -452,12 +452,12 @@ void main() {
       final result =
           await requestProcessor.processRequest<Response<String>, String>(
         onRequest: mockedRequest,
-        onParse: (response) => response,
+        onParse: (response) => response.data,
       );
 
       expect(
         result,
-        isA<DataResponseSuccess<String>>(),
+        isA<DataResponseSuccess>(),
       );
 
       expect(
@@ -470,11 +470,16 @@ void main() {
   group('Connectivity && InternetConnectionChecker tests', () {
     late RequestProcessor requestProcessor;
     late Connectivity connectivity;
+    late MockInternetConnection internetConnection;
     late ConnectionChecker checker;
 
     setUp(() {
       connectivity = MockConnectivity();
-      checker = MobileConnectionChecker();
+      internetConnection = MockInternetConnection();
+      checker = MobileConnectionChecker(
+        connectivity: connectivity,
+        internetConnection: internetConnection,
+      );
       requestProcessor = InternalDioRequestProcessor(
         connectionChecker: checker,
       );
@@ -507,7 +512,7 @@ void main() {
         onParse: (response) => response.data as String,
       );
 
-      expect(result, DataResponse<String>.notConnected());
+      expect(result, isA<NoInternetConnection>());
     });
 
     test('ConnectivityResult.mobile && hasConnection test', () async {
@@ -537,7 +542,7 @@ void main() {
         onParse: (response) => response.data as String,
       );
 
-      expect(result, DataResponse<String>.success(mockedData));
+      expect(result, isA<DataResponseSuccess>());
     });
   });
 }

@@ -54,12 +54,12 @@ class InternalDioRequestProcessor extends RequestProcessor {
           ),
         );
         return DataResponse.success(
-          onParse((response as Response<dynamic>).data),
+          onParse((response as Response<dynamic>)),
         );
       } else {
         final response = await onRequest();
         return DataResponse.success(
-          onParse((response as Response<dynamic>).data),
+          onParse((response as Response<dynamic>)),
         );
       }
     } on DioException catch (e) {
@@ -77,6 +77,7 @@ class InternalDioRequestProcessor extends RequestProcessor {
         print(e);
         print(trace);
       }
+
       return DataResponse.undefinedError(e);
     }
   }
