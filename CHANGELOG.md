@@ -1,3 +1,7 @@
+## 0.0.6-beta.2
+
+* Code improvements
+
 ## 0.0.6-beta.1
 
 * Code improvements
