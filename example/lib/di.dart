@@ -15,12 +15,11 @@ void initializeDi(GetIt getIt) {
   getIt.registerLazySingleton<ApiClient>(
     () => dioClientModule.makeApiClient(
       ApiClientParams(
-        baseUrl: 'https://jsonplaceholder.typicode.com/',
-        defaultConnectTimeout: 5000,
-        defaultReceiveTimeout: 5000,
-        interceptors: [LogInterceptor()],
-        headers: {}
-      ),
+          baseUrl: 'https://jsonplaceholder.typicode.com/',
+          defaultConnectTimeout: 5000,
+          defaultReceiveTimeout: 5000,
+          interceptors: [LogInterceptor()],
+          headers: {}),
     ),
     instanceName: 'apiInstanceName',
   );

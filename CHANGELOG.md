@@ -1,3 +1,7 @@
+## 0.0.6-beta.3
+
+* Added function to update base client url
+
 ## 0.0.6-beta.2
 
 * Code improvements

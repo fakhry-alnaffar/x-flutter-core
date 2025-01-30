@@ -10,9 +10,7 @@ import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 class ApiClient implements BaseApiClient<Dio> {
   final List<Interceptor> _interceptors;
-
   CacheInterceptor? _cacheInterceptor;
-
   @override
   late Dio client;
 
@@ -26,6 +24,10 @@ class ApiClient implements BaseApiClient<Dio> {
     client.transformer = BackgroundTransformer();
     attachLoggerInterceptor();
     attachInterceptors();
+  }
+
+  void updateClientBaseUrl(String baseUrl) {
+    client.options = client.options.copyWith(baseUrl: baseUrl);
   }
 
   @override
