@@ -17,7 +17,7 @@ dependencies:
   dio: ^5.7.0
   onix_flutter_core:
     path: ../
-  onix_flutter_core_models: ^0.0.1
+  onix_flutter_core_models: ^0.0.3-beta.1
 
 dev_dependencies:
   flutter_test:
@@ -26,6 +26,7 @@ dev_dependencies:
   build_runner: ^2.4.9
   freezed: ^2.5.2
   json_serializable: ^6.8.0
+
 
 flutter:
   uses-material-design: true

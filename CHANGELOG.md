@@ -1,3 +1,16 @@
+## 0.0.6-beta.3
+
+* Added function to update base client url
+
+## 0.0.6-beta.2
+
+* Code improvements
+
+## 0.0.6-beta.1
+
+* Code improvements
+* Switched to beta core components
+
 ## 0.0.5
 
 * Added unit tests for the BasePreferences class

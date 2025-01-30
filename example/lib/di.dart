@@ -1,4 +1,5 @@
 import 'package:example/base_api_client_example/data/log_interceptor.dart';
+import 'package:example/base_api_client_example/util/custom_error_parser.dart';
 import 'package:get_it/get_it.dart';
 import 'package:onix_flutter_core/onix_flutter_core.dart';
 
@@ -14,25 +15,27 @@ void initializeDi(GetIt getIt) {
   getIt.registerLazySingleton<ApiClient>(
     () => dioClientModule.makeApiClient(
       ApiClientParams(
-        baseUrl: 'https://jsonplaceholder.typicode.com/',
-        defaultConnectTimeout: 5000,
-        defaultReceiveTimeout: 5000,
-        interceptors: [LogInterceptor()],
-      ),
+          baseUrl: 'https://jsonplaceholder.typicode.com/',
+          defaultConnectTimeout: 5000,
+          defaultReceiveTimeout: 5000,
+          interceptors: [LogInterceptor()],
+          headers: {}),
     ),
     instanceName: 'apiInstanceName',
   );
 
   // Registering DioRequestProcessor
-  getIt.registerLazySingleton<DioRequestProcessor>(
-    dioClientModule.makeDioRequestProcessor,
+  getIt.registerLazySingleton<RequestProcessor>(
+    () => dioClientModule.createInternalDioRequestProcessor(
+      customErrorParser: CustomErrorParser.parse,
+    ),
   );
 
   // Registering UserSource
   getIt.registerLazySingleton<UserSource>(
     () => UserSourceImpl(
       getIt<ApiClient>(instanceName: 'apiInstanceName'),
-      getIt<DioRequestProcessor>(),
+      getIt<RequestProcessor>(),
     ),
   );
 
