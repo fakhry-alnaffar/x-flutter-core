@@ -20,9 +20,13 @@ class ApiClient implements BaseApiClient<Dio> {
   ApiClient({
     required BaseOptions options,
     List<Interceptor> interceptors = const [],
-  }) : _interceptors = interceptors {
+  }) : _interceptors = List.from(interceptors) {
     client = Dio(options);
     client.transformer = BackgroundTransformer();
+    _initInterceptors();
+  }
+
+  void _initInterceptors() {
     attachLoggerInterceptor();
     attachInterceptors();
   }
@@ -34,22 +38,26 @@ class ApiClient implements BaseApiClient<Dio> {
   @override
   void attachLoggerInterceptor() {
     if (kDebugMode) {
-      client.interceptors.add(
-        PrettyDioLogger(
-          requestHeader: true,
-          requestBody: true,
-          responseHeader: true,
-          compact: false,
-        ),
-      );
+      final hasLogger = client.interceptors.any((i) => i is PrettyDioLogger);
+      if (!hasLogger) {
+        client.interceptors.add(
+          PrettyDioLogger(
+            requestHeader: true,
+            requestBody: true,
+            responseHeader: true,
+            compact: false,
+          ),
+        );
+      }
     }
   }
 
   @override
   void attachInterceptors() {
-    if (_interceptors.isNotEmpty) {
-      client.interceptors.clear();
-      client.interceptors.addAll(_interceptors);
+    for (final interceptor in _interceptors) {
+      if (!client.interceptors.contains(interceptor)) {
+        client.interceptors.add(interceptor);
+      }
     }
     if (_cacheInterceptor != null) {
       _reAttachCacheInterceptor();
@@ -63,11 +71,12 @@ class ApiClient implements BaseApiClient<Dio> {
   }
 
   @override
-  void deAttachInterceptors() {
+  void detachInterceptors() {
     client.interceptors.clear();
     if (_cacheInterceptor != null) {
       clearCache();
     }
+    attachLoggerInterceptor();
   }
 
   void attachCharlesProxy(String? charlesIp, String? port) {
@@ -98,7 +107,7 @@ class ApiClient implements BaseApiClient<Dio> {
       _cacheInterceptor?.customCacheKeyBuilder(request) ?? '';
 
   Future<void> _reAttachCacheInterceptor() async {
-    _cacheInterceptor?.deAttachInterceptor();
+    _cacheInterceptor?.detachInterceptor();
     await _cacheInterceptor?.attachCacheInterceptor();
   }
 }

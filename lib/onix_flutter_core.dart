@@ -1,4 +1,4 @@
-library onix_flutter_core;
+library;
 
 export 'src/data/local/prefs/shared_preferences_storage.dart';
 export 'src/data/local/base/key_value_storage.dart';

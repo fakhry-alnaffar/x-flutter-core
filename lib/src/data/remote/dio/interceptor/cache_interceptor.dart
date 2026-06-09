@@ -16,7 +16,7 @@ abstract interface class CacheInterceptor {
 
   Future<void> clearCache();
 
-  void deAttachInterceptor();
+  void detachInterceptor();
 
   String customCacheKeyBuilder(RequestOptions request);
 }

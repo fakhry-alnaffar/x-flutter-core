@@ -10,37 +10,36 @@ class SharedPreferencesStorage
   @override
   Future<K> get<K>(String key, K defaultValue) async {
     final s = await storage();
-    K? result;
 
-    switch (defaultValue.runtimeType) {
-      case const (String):
-        result = s.getString(key) as K?;
-      case const (bool):
-        result = s.getBool(key) as K?;
-      case const (int):
-        result = s.getInt(key) as K?;
-      case const (double):
-        result = s.getDouble(key) as K?;
-      case const (List<String>):
-        result = s.getStringList(key) as K?;
-    }
-    return result ?? defaultValue;
+    final result = switch (defaultValue) {
+      String _ => s.getString(key),
+      bool _ => s.getBool(key),
+      int _ => s.getInt(key),
+      double _ => s.getDouble(key),
+      List<String> _ => s.getStringList(key),
+      _ => null,
+    };
+
+    return (result as K?) ?? defaultValue;
   }
 
   @override
   Future<void> put<K>(String key, K value) async {
     final prefs = await storage();
-    switch (value.runtimeType) {
-      case const (String):
-        await prefs.setString(key, value as String);
-      case const (bool):
-        await prefs.setBool(key, value as bool);
-      case const (double):
-        await prefs.setDouble(key, value as double);
-      case const (int):
-        await prefs.setInt(key, value as int);
-      case const (List<String>):
-        await prefs.setStringList(key, value as List<String>);
+    switch (value) {
+      case String v:
+        await prefs.setString(key, v);
+      case bool v:
+        await prefs.setBool(key, v);
+      case double v:
+        await prefs.setDouble(key, v);
+      case int v:
+        await prefs.setInt(key, v);
+      case List<String> v:
+        await prefs.setStringList(key, v);
+      default:
+        // Unsupported types are ignored to prevent runtime crashes
+        break;
     }
   }
 

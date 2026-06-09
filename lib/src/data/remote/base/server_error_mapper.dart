@@ -9,48 +9,28 @@ abstract class ServerErrorMapper {
   );
 
   Failure mapToFailure<T>(
-    DataResponse<T> failure,
+    DataResponse<T> response,
   ) {
     try {
-      switch (failure) {
-        case UndefinedError u:
-          {
-            return ApiUndefinedFailure(
-              statusCode: u.statusCode,
-              message: u.errorObject.toString(),
-            );
-          }
-        case ApiError e:
-          {
-            final customError = onCustomError(
-              e.error,
-              e.statusCode,
-            );
-            return customError ??
-                ApiFailure(
-                  ServerFailure.response,
-                  statusCode: e.statusCode,
-                  message: e.error.toString(),
-                );
-          }
-        case NoInternetConnection _:
-          {
-            return ConnectionFailure();
-          }
-        case Unauthorized _:
-          {
-            return ApiUnauthorizedFailure();
-          }
-        case TooManyRequests _:
-          {
-            return ApiTooManyRequestsFailure();
-          }
-        case CanceledRequest _:
-          {
-            return const CanceledRequestFailure();
-          }
-      }
-      return ApiUnknownFailure();
+      return switch (response) {
+        DataResponseSuccess() => ApiUnknownFailure(),
+        UndefinedError(:final errorObject, :final statusCode) =>
+          ApiUndefinedFailure(
+            statusCode: statusCode,
+            message: errorObject.toString(),
+          ),
+        ApiError(:final error, :final statusCode) =>
+          onCustomError(error, statusCode) ??
+              ApiFailure(
+                ServerFailure.response,
+                statusCode: statusCode,
+                message: error.toString(),
+              ),
+        NoInternetConnection() => ConnectionFailure(),
+        Unauthorized() => ApiUnauthorizedFailure(),
+        TooManyRequests() => ApiTooManyRequestsFailure(),
+        CanceledRequest() => const CanceledRequestFailure(),
+      };
     } catch (e, trace) {
       if (kDebugMode) {
         print('MapCommonServerError::getServerFailureDetails');

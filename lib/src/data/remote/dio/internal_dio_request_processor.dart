@@ -12,11 +12,8 @@ import 'package:retry/retry.dart';
 
 class InternalDioRequestProcessor extends RequestProcessor {
   final ErrorProcessor _errorProcessor;
-
   final RetryPolicy? _retryPolicy;
-
   final ConnectionChecker _connectionChecker;
-
   final OnCustomError? _onCustomError;
 
   InternalDioRequestProcessor({
@@ -26,7 +23,7 @@ class InternalDioRequestProcessor extends RequestProcessor {
     OnCustomError? onCustomError,
   })  : _errorProcessor = errorProcessor ?? ErrorProcessor.internal(),
         _retryPolicy = retryPolicy,
-        _connectionChecker = connectionChecker ?? AlwaysHaveConnection(),
+        _connectionChecker = connectionChecker ?? const AlwaysHaveConnection(),
         _onCustomError = onCustomError;
 
   @override
@@ -36,33 +33,25 @@ class InternalDioRequestProcessor extends RequestProcessor {
     OnCustomError? onCustomRequestError,
     bool checkNetworkConnection = true,
   }) async {
-    //step 1: check connection
     if (checkNetworkConnection) {
-      final hasConnection = await hasInternetConnection(
-        _connectionChecker,
-      );
+      final hasConnection = await hasInternetConnection(_connectionChecker);
       if (!hasConnection) {
         return DataResponse<R>.notConnected();
       }
     }
+
     try {
+      final T response;
       if (_retryPolicy != null) {
-        final response = await retry(
+        response = await retry(
           onRequest,
           maxAttempts: _retryPolicy.maxAttemptsCount,
-          retryIf: (exception) => _retryPolicy.onRetry(
-            exception: exception,
-          ),
-        );
-        return DataResponse.success(
-          onParse((response as Response<dynamic>)),
+          retryIf: (exception) => _retryPolicy.onRetry(exception: exception),
         );
       } else {
-        final response = await onRequest();
-        return DataResponse.success(
-          onParse((response as Response<dynamic>)),
-        );
+        response = await onRequest();
       }
+      return DataResponse.success(onParse(response));
     } on DioException catch (e) {
       if (e.type == DioExceptionType.cancel) {
         return DataResponse.canceledRequest();
@@ -74,8 +63,7 @@ class InternalDioRequestProcessor extends RequestProcessor {
       );
     } catch (e, trace) {
       if (kDebugMode) {
-        print('onDioCommonError::DioRequestProcessorImpl');
-        print(e);
+        print('InternalDioRequestProcessor::processRequest error: $e');
         print(trace);
       }
 
@@ -84,8 +72,6 @@ class InternalDioRequestProcessor extends RequestProcessor {
   }
 
   @override
-  Future<bool> hasInternetConnection(
-    ConnectionChecker connectionChecker,
-  ) =>
+  Future<bool> hasInternetConnection(ConnectionChecker connectionChecker) =>
       connectionChecker.hasConnection();
 }

@@ -1,12 +1,16 @@
-
-abstract class DataResponse<T> {
+sealed class DataResponse<T> {
   const DataResponse();
 
-  T get data => (this as DataResponseSuccess).data;
+  T get data {
+    if (this is DataResponseSuccess<T>) {
+      return (this as DataResponseSuccess<T>).data;
+    }
+    throw StateError('Cannot access data on a non-success response: $this');
+  }
 
-  bool isSuccess() => this is DataResponseSuccess;
+  bool isSuccess() => this is DataResponseSuccess<T>;
 
-  bool isError() => this is! DataResponseSuccess;
+  bool isError() => this is! DataResponseSuccess<T>;
 
   factory DataResponse.success(T data) => DataResponseSuccess(data);
 
@@ -43,7 +47,7 @@ final class DataResponseSuccess<T> extends DataResponse<T> {
   @override
   T get data => _data;
 
-  DataResponseSuccess(T data) : _data = data;
+  const DataResponseSuccess(T data) : _data = data;
 }
 
 final class UndefinedError<T> extends DataResponse<T> {
@@ -54,7 +58,7 @@ final class UndefinedError<T> extends DataResponse<T> {
 
   int? get statusCode => _statusCode;
 
-  UndefinedError(
+  const UndefinedError(
     Object? errorObject, [
     int? statusCode,
   ])  : _errorObject = errorObject,
@@ -69,18 +73,25 @@ final class ApiError<T> extends DataResponse<T> {
 
   int? get statusCode => _statusCode;
 
-  ApiError(
+  const ApiError(
     Object error, [
     int? statusCode,
   ])  : _error = error,
         _statusCode = statusCode;
 }
 
-final class NoInternetConnection<T> extends DataResponse<T> {}
+final class NoInternetConnection<T> extends DataResponse<T> {
+  const NoInternetConnection();
+}
 
-final class Unauthorized<T> extends DataResponse<T> {}
+final class Unauthorized<T> extends DataResponse<T> {
+  const Unauthorized();
+}
 
-final class TooManyRequests<T> extends DataResponse<T> {}
+final class TooManyRequests<T> extends DataResponse<T> {
+  const TooManyRequests();
+}
 
-final class CanceledRequest<T> extends DataResponse<T> {}
-
+final class CanceledRequest<T> extends DataResponse<T> {
+  const CanceledRequest();
+}

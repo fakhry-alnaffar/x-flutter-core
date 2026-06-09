@@ -415,14 +415,10 @@ void main() {
         onRequest: () => fetchDataFuture,
         onParse: (e) {},
       );
-      var failure = false;
-      switch (result) {
-        case CanceledRequest _:
-          {
-            failure = true;
-            break;
-          }
-      }
+      final failure = switch (result) {
+        CanceledRequest() => true,
+        _ => false,
+      };
 
       expect(result.isError(), true);
       expect(failure, true);

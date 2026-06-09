@@ -16,7 +16,7 @@ abstract class BaseApiClient<T> {
 
   void attachCacheInterceptor(CacheInterceptor cacheInterceptor);
 
-  void deAttachInterceptors();
+  void detachInterceptors();
 
   void attachLoggerInterceptor();
 }

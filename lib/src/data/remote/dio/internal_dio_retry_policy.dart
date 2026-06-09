@@ -14,15 +14,18 @@ class InternalDioRetryPolicy extends RetryPolicy {
   FutureOr<bool> onRetry({
     required Exception exception,
   }) async {
+    if (exception is SocketException || exception is TimeoutException) {
+      return true;
+    }
+
     if (exception is! DioException) return false;
     if (exception.type == DioExceptionType.cancel) return false;
+
     final response = exception.response;
     if (response == null) {
       return true;
     }
-    if (exception is SocketException || exception is TimeoutException) {
-      return true;
-    }
+
     return retryStatusCodes.contains(response.statusCode);
   }
 }

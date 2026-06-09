@@ -6,7 +6,7 @@ class SecuredPreferencesStorage
 
   @override
   Future<FlutterSecureStorage> create() async => const FlutterSecureStorage(
-    aOptions: AndroidOptions(encryptedSharedPreferences: true),
+    aOptions: AndroidOptions(),
     iOptions: IOSOptions(accessibility: KeychainAccessibility.first_unlock),
   );
 
@@ -14,13 +14,29 @@ class SecuredPreferencesStorage
   Future<K> get<K>(String key, K defaultValue) async {
     final s = await storage();
     final value = await s.read(key: key);
-    return (value ?? '') as K;
+    if (value == null) return defaultValue;
+
+    try {
+      final dynamic result = switch (defaultValue) {
+        String _ => value,
+        int _ => int.tryParse(value) ?? defaultValue,
+        double _ => double.tryParse(value) ?? defaultValue,
+        bool _ => value.toLowerCase() == 'true',
+        _ => null,
+      };
+      
+      return (result ?? defaultValue) as K;
+    } catch (_) {
+      return defaultValue;
+    }
   }
 
   @override
   Future<void> put<K>(String key, K value) async {
     final s = await storage();
-    await s.write(key: key, value: value as String);
+    if (value is String || value is int || value is double || value is bool) {
+      await s.write(key: key, value: value.toString());
+    }
   }
 
   @override

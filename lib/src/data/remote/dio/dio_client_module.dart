@@ -35,13 +35,13 @@ abstract class DioClientModule {
     OnCustomError? customErrorParser,
   }) =>
       InternalDioRequestProcessor(
-        retryPolicy: InternalDioRetryPolicy(
-          maxAttemptsCount: defaultMaxAttemptsCount,
-          retryStatusCodes: defaultRetryStatusCodes,
-        ),
+        retryPolicy: retryPolicy ??
+            InternalDioRetryPolicy(
+              maxAttemptsCount: defaultMaxAttemptsCount,
+              retryStatusCodes: defaultRetryStatusCodes,
+            ),
         errorProcessor: errorProcessor,
         connectionChecker: (kIsWeb) ? null : connectionChecker,
         onCustomError: customErrorParser,
       );
-
 }
