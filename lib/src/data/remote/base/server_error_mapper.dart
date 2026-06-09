@@ -3,12 +3,12 @@ import 'package:onix_flutter_core/src/domain/entity/common/data_response.dart';
 import 'package:onix_flutter_core_models/onix_flutter_core_models.dart';
 
 abstract class ServerErrorMapper {
-  Exception? onCustomError(
+  Failure? onCustomError(
     Object data,
     int? statusCode,
   );
 
-  Exception mapToFailure<T>(
+  Failure mapToFailure<T>(
     DataResponse<T> failure,
   ) {
     try {

@@ -3,6 +3,7 @@ import 'package:example/base_api_client_example/data/mapper/user_mapper.dart';
 import 'package:example/base_api_client_example/data/source/user_source.dart';
 import 'package:example/base_api_client_example/domain/entity/user_entity.dart';
 import 'package:example/base_api_client_example/domain/repository/user_repository.dart';
+import 'package:example/base_api_client_example/domain/result.dart';
 import 'package:onix_flutter_core_models/onix_flutter_core_models.dart';
 
 class UserRepositoryImpl implements UserRepository {
@@ -25,14 +26,14 @@ class UserRepositoryImpl implements UserRepository {
 
         return Result.ok(users);
       } else {
-        final error = DioServerErrorMapper().mapToFailure(
+        final failure = DioServerErrorMapper().mapToFailure(
           userResponse,
         );
-        return Result.error(error: error);
+        return Result.error(failure: failure);
       }
     } catch (e) {
       return Result.error(
-        error: ApiFailure(ServerFailure.unknown),
+        failure: ApiFailure(ServerFailure.unknown),
       );
     }
   }

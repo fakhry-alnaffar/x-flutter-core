@@ -14,7 +14,7 @@ class DioServerErrorMapper extends ServerErrorMapper {
   DioServerErrorMapper._internal();
 
   @override
-  Exception? onCustomError(Object data, int? statusCode) {
+  Failure? onCustomError(Object data, int? statusCode) {
     switch (data) {
       case (DefaultApiError defaultError):
         {
