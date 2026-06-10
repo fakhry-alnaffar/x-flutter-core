@@ -24,5 +24,5 @@ abstract class RequestProcessor {
   Future<bool> hasInternetConnection(
     ConnectionChecker connectionChecker,
   ) =>
-      Future.value(true);
+      connectionChecker.hasConnection();
 }

@@ -387,14 +387,13 @@ void main() {
 
     test('Request is cancelled', () async {
       final cancelToken = CancelToken();
-      final fetchDataFuture = Dio().get(
-        'https://jsonplaceholder.typicode.com/posts',
-        cancelToken: cancelToken,
-      );
       cancelToken.cancel('Cancelled by user');
+
       try {
-        await fetchDataFuture;
-        fail('Expected DioError to be thrown');
+        // Pre-cancelled token: Dio throws DioExceptionType.cancel immediately
+        // without making any network connection.
+        await Dio().get('http://localhost', cancelToken: cancelToken);
+        fail('Expected DioException to be thrown');
       } catch (e) {
         expect(e, isA<DioException>());
         expect((e as DioException).type, DioExceptionType.cancel);
@@ -405,14 +404,10 @@ void main() {
     test('Request is cancelled and DataResponse.requestCanceled returned',
         () async {
       final cancelToken = CancelToken();
-      final fetchDataFuture = Dio().get(
-        'https://jsonplaceholder.typicode.com/posts',
-        cancelToken: cancelToken,
-      );
       cancelToken.cancel('Cancelled by user');
 
       final result = await requestProcessor.processRequest(
-        onRequest: () => fetchDataFuture,
+        onRequest: () => Dio().get('http://localhost', cancelToken: cancelToken),
         onParse: (e) {},
       );
       final failure = switch (result) {

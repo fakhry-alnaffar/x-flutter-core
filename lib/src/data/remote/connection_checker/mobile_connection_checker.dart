@@ -16,8 +16,8 @@ class MobileConnectionChecker implements ConnectionChecker {
 
   @override
   Future<bool> hasConnection() async {
-    final hasAccess = await _connection.hasInternetAccess;
     final connectivityResult = await _connectivity.checkConnectivity();
-    return hasAccess && connectivityResult.hasConnection;
+    if (!connectivityResult.hasConnection) return false;
+    return _connection.hasInternetAccess;
   }
 }

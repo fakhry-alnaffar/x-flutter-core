@@ -7,6 +7,7 @@ import 'package:onix_flutter_core/src/data/remote/base/processor/request_process
 import 'package:onix_flutter_core/src/data/remote/base/connection_checker.dart';
 import 'package:onix_flutter_core/src/data/remote/connection_checker/always_have_connection.dart';
 import 'package:onix_flutter_core/src/data/remote/base/retry_policy.dart';
+import 'package:onix_flutter_core/src/data/remote/dio/internal_dio_error_processor.dart';
 import 'package:onix_flutter_core/src/domain/entity/common/data_response.dart';
 import 'package:retry/retry.dart';
 
@@ -21,7 +22,7 @@ class InternalDioRequestProcessor extends RequestProcessor {
     ErrorProcessor? errorProcessor,
     ConnectionChecker? connectionChecker,
     OnCustomError? onCustomError,
-  })  : _errorProcessor = errorProcessor ?? ErrorProcessor.internal(),
+  })  : _errorProcessor = errorProcessor ?? const InternalDioErrorProcessor(),
         _retryPolicy = retryPolicy,
         _connectionChecker = connectionChecker ?? const AlwaysHaveConnection(),
         _onCustomError = onCustomError;

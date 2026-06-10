@@ -15,6 +15,7 @@ class InternalDioErrorProcessor implements ErrorProcessor {
       final statusCode = e.response?.statusCode ?? -1;
       if (e.type == DioExceptionType.connectionTimeout ||
           e.type == DioExceptionType.sendTimeout ||
+          e.type == DioExceptionType.receiveTimeout ||
           statusCode == HttpStatus.networkConnectTimeoutError) {
         return DataResponse<T>.notConnected();
       }

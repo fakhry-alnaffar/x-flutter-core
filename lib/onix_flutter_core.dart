@@ -1,6 +1,7 @@
 library;
 
 export 'src/data/local/prefs/shared_preferences_storage.dart';
+export 'src/data/local/prefs/secured_preferences_storage.dart';
 export 'src/data/local/base/key_value_storage.dart';
 export 'src/data/local/base/key_value_reloadable_storage.dart';
 export 'src/data/remote/base/base_api_client.dart' show BaseApiClient;
@@ -27,7 +28,7 @@ export 'src/data/remote/base/retry_policy.dart'
     show RetryPolicy;
 
 
-export 'src/data/remote/dio/interceptor/cache_interceptor.dart';
+export 'src/data/remote/base/cache_interceptor.dart';
 export 'src/data/remote/dio/params/api_client_params.dart' show ApiClientParams;
 export 'src/domain/common/converter/mapper.dart';
 export 'src/domain/entity/common/data_response.dart';

@@ -1,17 +1,10 @@
 import 'package:flutter/foundation.dart';
 
 abstract class KeyValueStorage<T> {
-  T? _storage;
+  Future<T>? _initFuture;
 
   @protected
-  Future<T> storage() async {
-    if (_storage != null) {
-      return _storage!;
-    }
-    final newStorage = await create();
-    _storage = newStorage;
-    return newStorage;
-  }
+  Future<T> storage() => _initFuture ??= create();
 
   @protected
   Future<T> create();

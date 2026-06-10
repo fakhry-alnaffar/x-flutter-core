@@ -48,8 +48,9 @@ class SecuredPreferencesStorage
   @override
   Future<bool> remove(String key) async {
     final s = await storage();
+    final existed = await s.containsKey(key: key);
     await s.delete(key: key);
-    return true;
+    return existed;
   }
 
   @override

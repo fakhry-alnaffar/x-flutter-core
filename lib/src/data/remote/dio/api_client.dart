@@ -6,7 +6,7 @@ import 'package:dio/io.dart';
 import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 import 'package:flutter/foundation.dart';
 import 'package:onix_flutter_core/src/data/remote/base/base_api_client.dart';
-import 'package:onix_flutter_core/src/data/remote/dio/interceptor/cache_interceptor.dart';
+import 'package:onix_flutter_core/src/data/remote/base/cache_interceptor.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 class ApiClient implements BaseApiClient<Dio> {
@@ -23,12 +23,12 @@ class ApiClient implements BaseApiClient<Dio> {
   }) : _interceptors = List.from(interceptors) {
     client = Dio(options);
     client.transformer = BackgroundTransformer();
-    _initInterceptors();
-  }
-
-  void _initInterceptors() {
     attachLoggerInterceptor();
-    attachInterceptors();
+    for (final interceptor in _interceptors) {
+      if (!client.interceptors.contains(interceptor)) {
+        client.interceptors.add(interceptor);
+      }
+    }
   }
 
   void updateClientBaseUrl(String baseUrl) {
@@ -53,29 +53,27 @@ class ApiClient implements BaseApiClient<Dio> {
   }
 
   @override
-  void attachInterceptors() {
+  Future<void> attachInterceptors() async {
     for (final interceptor in _interceptors) {
       if (!client.interceptors.contains(interceptor)) {
         client.interceptors.add(interceptor);
       }
     }
     if (_cacheInterceptor != null) {
-      _reAttachCacheInterceptor();
+      await _reAttachCacheInterceptor();
     }
   }
 
   @override
-  void attachCacheInterceptor(CacheInterceptor cacheInterceptor) {
+  Future<void> attachCacheInterceptor(CacheInterceptor cacheInterceptor) async {
     _cacheInterceptor = cacheInterceptor;
-    _reAttachCacheInterceptor();
+    await _reAttachCacheInterceptor();
   }
 
   @override
-  void detachInterceptors() {
+  Future<void> detachInterceptors() async {
     client.interceptors.clear();
-    if (_cacheInterceptor != null) {
-      clearCache();
-    }
+    await _cacheInterceptor?.clearCache();
     attachLoggerInterceptor();
   }
 
@@ -85,10 +83,10 @@ class ApiClient implements BaseApiClient<Dio> {
       createHttpClient: () {
         final client = HttpClient()
           ..findProxy = (uri) => 'PROXY $charlesIp:$port';
-
-        //ignore: cascade_invocations
-        client.badCertificateCallback = (cert, host, port) => true;
-
+        if (kDebugMode) {
+          //ignore: cascade_invocations
+          client.badCertificateCallback = (cert, host, port) => true;
+        }
         return client;
       },
     );
