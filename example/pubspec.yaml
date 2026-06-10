@@ -19,7 +19,7 @@ dependencies:
   flutter_screenutil: ^5.9.3
   x_flutter_core:
     path: ../
-  x_flutter_core_models: ^0.1.4
+  x_flutter_core_models: ^1.0.0
 
 dev_dependencies:
   flutter_test:

@@ -2,7 +2,7 @@ name: x_flutter_core
 description: >-
   A robust networking, storage, and infrastructure layer for scalable Flutter
   applications. Built on Dio with Clean Architecture patterns.
-version: 1.0.1
+version: 1.0.2
 repository: https://github.com/fakhry-alnaffar/x-flutter-core
 homepage: https://github.com/fakhry-alnaffar/x-flutter-core
 issue_tracker: https://github.com/fakhry-alnaffar/x-flutter-core/issues
@@ -31,7 +31,7 @@ dependencies:
   shared_preferences: ^2.5.5
   internet_connection_checker_plus: ^3.0.1
 
-  x_flutter_core_models: ^0.1.4
+  x_flutter_core_models: ^1.0.0
 
 dev_dependencies:
   flutter_lints: ^6.0.0

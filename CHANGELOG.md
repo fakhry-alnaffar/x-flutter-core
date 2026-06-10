@@ -1,3 +1,7 @@
+## 1.0.2
+
+* Added Data Response type for safe result handling
+
 ## 1.0.1
 
 * Added dartdoc comments to all public API elements
@@ -5,7 +9,7 @@
 ## 1.0.0
 
 * Renamed package from `onix_flutter_core` to `x_flutter_core`
-* Migrated dependency from `onix_flutter_core_models` to `x_flutter_core_models: ^0.1.4`
+* Migrated dependency from `onix_flutter_core_models` to `x_flutter_core_models: ^1.0.0`
 * Applied Dart 3 sealed classes, immutable DTOs, and extension-based mappers
 * Fixed async race condition in `KeyValueStorage` lazy initialisation
 * Fixed `receiveTimeout` not mapping to `NoInternetConnection`

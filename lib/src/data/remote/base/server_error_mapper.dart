@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:x_flutter_core/src/domain/entity/common/data_response.dart';
-import 'package:x_flutter_core_models/x_flutter_core_models.dart';
+import 'package:x_flutter_core_models/x_flutter_core_models.dart'
+    hide DataResponse, DataResponseSuccess;
 
 /// Maps a [DataResponse] error variant to the matching [Failure] type from
 /// `x_flutter_core_models`.
@@ -32,16 +33,16 @@ abstract class ServerErrorMapper {
       return switch (response) {
         DataResponseSuccess() => ApiUnknownFailure(),
         UndefinedError(:final errorObject, :final statusCode) =>
-          ApiUndefinedFailure(
-            statusCode: statusCode,
-            message: errorObject.toString(),
-          ),
+            ApiUndefinedFailure(
+              statusCode: statusCode,
+              message: errorObject.toString(),
+            ),
         ApiError(:final error, :final statusCode) =>
-          onCustomError(error, statusCode) ??
-              ApiResponseFailure(
-                statusCode: statusCode ?? 0,
-                message: error.toString(),
-              ),
+        onCustomError(error, statusCode) ??
+            ApiResponseFailure(
+              statusCode: statusCode ?? 0,
+              message: error.toString(),
+            ),
         NoInternetConnection() => ConnectionFailure(),
         Unauthorized() => ApiUnauthorizedFailure(),
         TooManyRequests() => ApiTooManyRequestsFailure(),
