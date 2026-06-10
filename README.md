@@ -1,94 +1,91 @@
-This package contains some base classes designed to improve experience of using HTTP networking
-functionality. 
+# x_flutter_core
 
-Initially works with Dio api client but you free to extend implementation to use any other api client.
+A robust networking, storage, and infrastructure layer for scalable Flutter
+applications. Built on Dio with Clean Architecture patterns.
 
+[![pub.dev](https://img.shields.io/pub/v/x_flutter_core.svg)](https://pub.dev/packages/x_flutter_core)
+
+## Features
+
+- Dio-based HTTP client with caching, retry, and proxy support
+- Clean architecture request/error processor pipeline
+- Secure and shared preferences storage with lazy initialisation
+- Connectivity checker (mobile + always-connected stubs)
+- Sealed `DataResponse<T>` type for safe result handling
+
+## Installation
+
+```yaml
+dependencies:
+  x_flutter_core: ^1.0.0
+```
 
 ## Usage
 
-Create a new api client:
+### Create an API client
 
-```
-
+```dart
 final dioClientModule = _DioClientModule();
 final apiClient = dioClientModule.makeApiClient(
-    ApiClientParams(
-    baseUrl: 'https://jsonplaceholder.typicode.com/',
+  ApiClientParams(
+    baseUrl: 'https://api.example.com/',
     defaultConnectTimeout: 5000,
     defaultReceiveTimeout: 5000,
-    interceptors: [LogInterceptor()],
-    headers: {} //optional
-    ),
+    interceptors: [MyLogInterceptor()],
+    headers: {},
+  ),
 );
-
 ```
 
-Create custom error handler to parse Api error responses globally:
+### Create a custom error parser
 
-```
+```dart
+class CustomErrorParser {
+  const CustomErrorParser._();
 
-class CustomErrorHandler {
-
-  const CustomErrorHandler._();
-  static Object handle(
-    int statusCode,
-    dynamic response,
-  ) {
-    return MyApiErrorResponse.fromJson(response as Map<String, dynamic>);
+  static Object parse(int statusCode, dynamic response) {
+    if (response is! Map<String, dynamic>) {
+      return MyApiError(message: response?.toString());
+    }
+    return MyApiError.fromJson(response);
   }
 }
-
 ```
 
-Create request processor:
+### Create a request processor
 
-```
-
+```dart
 final processor = dioClientModule.createInternalDioRequestProcessor(
-      customErrorParser: MyCustomErrorHandler.handle,
-    ),;
-
+  customErrorParser: CustomErrorParser.parse,
+);
 ```
 
-Make a request:
+### Make a request
 
+```dart
+final response = await processor.processRequest(
+  onRequest: () => apiClient.client.get('/users'),
+  onParse: (response) => UserModelList.fromJson(response.data),
+);
 ```
 
-_requestProcessor.processRequest(
-      onRequest: () => _apiClient.client.get('https://api.url/getProfile'),
-      onParse: (response) {
-        return MyResponse.fromJson(response.data);
-      },
-      //optional
-      onCustomRequestError: (code, data){
-        return MyCustomError.fromJson(response);
-      },
-    );
+### Handle the result
 
-```
-
-Handle result or error from `DataResponse` class response:
-
-```
-
+```dart
 if (response.isSuccess()) {
-    final data = response.data;
-    ...
+  final data = response.data;
 } else {
-    // process and error
+  // handle error via ServerErrorMapper
 }
+```
 
-``` 
+## Custom HTTP client
 
-## Create custom HTTP client implementation
+1. Extend `RequestProcessor` and implement `processRequest`.
+2. Extend `ErrorProcessor` and implement `processError`.
 
-To create you own implementation based on this package you follow these steps:
+See `InternalDioRequestProcessor` and `InternalDioErrorProcessor` for reference implementations.
 
-1. Create your request processor implementation class extended from `RequestProcessor`
-2. Implement `processRequest` function code and optional `hasInternetConnection` function code. See InternalDioRequestProcessor for reference. 
-3. Create your error processor implementation class extended from `ErrorProcessor`
-4. Implement `processError` function code. See `InternalDioErrorProcessor` for reference.
+## License
 
-
-
-
+MIT

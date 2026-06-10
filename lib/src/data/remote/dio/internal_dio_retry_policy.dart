@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:onix_flutter_core/src/data/remote/base/retry_policy.dart';
+import 'package:x_flutter_core/src/data/remote/base/retry_policy.dart';
 
 class InternalDioRetryPolicy extends RetryPolicy {
   InternalDioRetryPolicy({

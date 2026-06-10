@@ -1,6 +1,6 @@
 import 'package:example/base_api_client_example/data/model/user_model.dart';
 import 'package:example/base_api_client_example/data/source/user_source.dart';
-import 'package:onix_flutter_core/onix_flutter_core.dart';
+import 'package:x_flutter_core/x_flutter_core.dart';
 
 class UserSourceImpl implements UserSource {
   static const String _users = '/users';

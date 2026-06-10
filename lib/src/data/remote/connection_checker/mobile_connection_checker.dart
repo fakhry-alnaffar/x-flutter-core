@@ -1,7 +1,7 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
-import 'package:onix_flutter_core/onix_flutter_core.dart';
-import 'package:onix_flutter_core/src/data/remote/extension/connectivity_ext.dart';
+import 'package:x_flutter_core/x_flutter_core.dart';
+import 'package:x_flutter_core/src/data/remote/extension/connectivity_ext.dart';
 
 class MobileConnectionChecker implements ConnectionChecker {
   final InternetConnection _connection;

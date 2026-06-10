@@ -1,5 +1,5 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:onix_flutter_core/onix_flutter_core.dart';
+import 'package:x_flutter_core/x_flutter_core.dart';
 
 class SecuredPreferencesStorage
     extends KeyValueStorage<FlutterSecureStorage> {

@@ -1,4 +1,4 @@
-import 'package:onix_flutter_core/src/data/remote/base/cache_interceptor.dart';
+import 'package:x_flutter_core/src/data/remote/base/cache_interceptor.dart';
 
 abstract class BaseApiClient<T> {
   static const String kAuthHeader = 'Authorization';

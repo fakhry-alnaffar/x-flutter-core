@@ -1,4 +1,4 @@
-import 'package:onix_flutter_core_models/onix_flutter_core_models.dart';
+import 'package:x_flutter_core_models/x_flutter_core_models.dart';
 
 sealed class Result<T> {
   const Result();
@@ -17,8 +17,10 @@ sealed class Result<T> {
 final class OkResult<T> extends Result<T> {
   @override
   final T data;
+
   @override
   bool get isOk => true;
+
   @override
   Failure? get failure => null;
 
@@ -28,8 +30,10 @@ final class OkResult<T> extends Result<T> {
 final class ErrorResult<T> extends Result<T> {
   @override
   final Failure failure;
+
   @override
   bool get isOk => false;
+
   @override
   T? get data => null;
 

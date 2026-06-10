@@ -25,8 +25,12 @@ class LogInterceptor extends Interceptor {
         print('║    ${header.key}: ${header.value}');
       }
       print('║ Response data:');
-      for (final entry in (response.data as List<dynamic>)) {
-        print('║    $entry');
+      if (response.data is List) {
+        for (final entry in response.data as List<dynamic>) {
+          print('║    $entry');
+        }
+      } else {
+        print('║    ${response.data}');
       }
       print('╚${'═' * 79}\n');
     }

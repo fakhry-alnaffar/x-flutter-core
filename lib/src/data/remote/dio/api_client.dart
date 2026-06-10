@@ -5,8 +5,8 @@ import 'package:dio/dio.dart';
 import 'package:dio/io.dart';
 import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 import 'package:flutter/foundation.dart';
-import 'package:onix_flutter_core/src/data/remote/base/base_api_client.dart';
-import 'package:onix_flutter_core/src/data/remote/base/cache_interceptor.dart';
+import 'package:x_flutter_core/src/data/remote/base/base_api_client.dart';
+import 'package:x_flutter_core/src/data/remote/base/cache_interceptor.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 class ApiClient implements BaseApiClient<Dio> {

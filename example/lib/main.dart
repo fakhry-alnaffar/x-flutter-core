@@ -1,13 +1,12 @@
 import 'package:example/base_api_client_example/base_api_client_example.dart';
 import 'package:example/di.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get_it/get_it.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-
   initializeDi(GetIt.I);
-
   runApp(const MyApp());
 }
 
@@ -16,17 +15,23 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
+    return ScreenUtilInit(
+      // Design canvas from Figma / design spec (375×812 = iPhone 14 baseline).
+      designSize: const Size(375, 812),
+      minTextAdapt: true,
+      splitScreenMode: true,
+      builder: (_, __) => MaterialApp(
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          useMaterial3: true,
+        ),
+        initialRoute: '/',
+        routes: {
+          '/': (_) => const MyHomePage(),
+          '/base_api_client_example': (_) =>
+              const BaseApiClientExample(title: 'Base API Client Example'),
+        },
       ),
-      initialRoute: '/',
-      routes: {
-        '/': (context) => const MyHomePage(),
-        '/base_api_client_example': (context) =>
-            const BaseApiClientExample(title: 'Base API Client Example'),
-      },
     );
   }
 }
@@ -44,7 +49,7 @@ class MyHomePage extends StatelessWidget {
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
+          children: [
             ElevatedButton(
               onPressed: () =>
                   Navigator.pushNamed(context, '/base_api_client_example'),

@@ -1,16 +1,11 @@
 import 'package:flutter/foundation.dart';
-import 'package:onix_flutter_core/src/domain/entity/common/data_response.dart';
-import 'package:onix_flutter_core_models/onix_flutter_core_models.dart';
+import 'package:x_flutter_core/src/domain/entity/common/data_response.dart';
+import 'package:x_flutter_core_models/x_flutter_core_models.dart';
 
 abstract class ServerErrorMapper {
-  Failure? onCustomError(
-    Object data,
-    int? statusCode,
-  );
+  Failure? onCustomError(Object data, int? statusCode);
 
-  Failure mapToFailure<T>(
-    DataResponse<T> response,
-  ) {
+  Failure mapToFailure<T>(DataResponse<T> response) {
     try {
       return switch (response) {
         DataResponseSuccess() => ApiUnknownFailure(),
@@ -21,9 +16,8 @@ abstract class ServerErrorMapper {
           ),
         ApiError(:final error, :final statusCode) =>
           onCustomError(error, statusCode) ??
-              ApiFailure(
-                ServerFailure.response,
-                statusCode: statusCode,
+              ApiResponseFailure(
+                statusCode: statusCode ?? 0,
                 message: error.toString(),
               ),
         NoInternetConnection() => ConnectionFailure(),
@@ -33,9 +27,8 @@ abstract class ServerErrorMapper {
       };
     } catch (e, trace) {
       if (kDebugMode) {
-        print('MapCommonServerError::getServerFailureDetails');
-        print(e);
-        print(trace);
+        debugPrint('ServerErrorMapper::mapToFailure — $e');
+        debugPrint(trace.toString());
       }
       return ApiExceptionFailure(message: e.toString());
     }

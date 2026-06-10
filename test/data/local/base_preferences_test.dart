@@ -1,4 +1,4 @@
-import 'package:onix_flutter_core/onix_flutter_core.dart';
+import 'package:x_flutter_core/x_flutter_core.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:test/test.dart';
 

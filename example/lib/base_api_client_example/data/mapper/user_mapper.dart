@@ -4,20 +4,16 @@ import 'package:example/base_api_client_example/data/model/address_model.dart';
 import 'package:example/base_api_client_example/data/model/company_model.dart';
 import 'package:example/base_api_client_example/data/model/user_model.dart';
 import 'package:example/base_api_client_example/domain/entity/user_entity.dart';
-import 'package:onix_flutter_core/onix_flutter_core.dart';
 
-class UserMapper implements Mapper<UserModel, UserEntity> {
-  @override
-  UserEntity map(UserModel from) {
-    return UserEntity(
-      id: from.id ?? -1,
-      name: from.name ?? '',
-      username: from.username ?? '',
-      email: from.email ?? '',
-      address: AddressMapper().map(from.address ?? AddressModel.empty()),
-      phone: from.phone ?? '',
-      website: from.website ?? '',
-      company: CompanyMapper().map(from.company ?? CompanyModel.empty()),
-    );
-  }
+extension UserModelMapper on UserModel {
+  UserEntity toEntity() => UserEntity(
+        id: id ?? -1,
+        name: name ?? '',
+        username: username ?? '',
+        email: email ?? '',
+        address: (address ?? AddressModel.empty()).toEntity(),
+        phone: phone ?? '',
+        website: website ?? '',
+        company: (company ?? CompanyModel.empty()).toEntity(),
+      );
 }

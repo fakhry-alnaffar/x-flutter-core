@@ -1,4 +1,4 @@
-import 'package:onix_flutter_core/src/data/local/base/key_value_reloadable_storage.dart';
+import 'package:x_flutter_core/src/data/local/base/key_value_reloadable_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPreferencesStorage

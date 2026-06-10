@@ -3,7 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:onix_flutter_core/onix_flutter_core.dart';
+import 'package:x_flutter_core/x_flutter_core.dart';
 import 'package:test/test.dart';
 
 import 'dio_request_processor_impl_test.mocks.dart';

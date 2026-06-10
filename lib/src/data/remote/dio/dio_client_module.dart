@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
-import 'package:onix_flutter_core/onix_flutter_core.dart';
-import 'package:onix_flutter_core/src/data/remote/dio/internal_dio_retry_policy.dart';
+import 'package:x_flutter_core/x_flutter_core.dart';
+import 'package:x_flutter_core/src/data/remote/dio/internal_dio_retry_policy.dart';
 
 abstract class DioClientModule {
   /// Number of attempts to re-execute the request

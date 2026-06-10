@@ -8,9 +8,12 @@ class CustomErrorParser {
     int statusCode,
     dynamic response,
   ) {
-    if (statusCode == 400) {
-      return ValidatorApiError.fromJson(response as Map<String, dynamic>);
+    if (response is! Map<String, dynamic>) {
+      return DefaultApiError(message: response?.toString(), code: null);
     }
-    return DefaultApiError.fromJson(response as Map<String, dynamic>);
+    if (statusCode == 400) {
+      return ValidatorApiError.fromJson(response);
+    }
+    return DefaultApiError.fromJson(response);
   }
 }

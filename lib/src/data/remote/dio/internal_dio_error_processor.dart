@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
-import 'package:onix_flutter_core/src/data/remote/base/http_status.dart';
-import 'package:onix_flutter_core/src/data/remote/base/processor/error_processor.dart';
-import 'package:onix_flutter_core/src/domain/entity/common/data_response.dart';
+import 'package:x_flutter_core/src/data/remote/base/http_status.dart';
+import 'package:x_flutter_core/src/data/remote/base/processor/error_processor.dart';
+import 'package:x_flutter_core/src/domain/entity/common/data_response.dart';
 
 class InternalDioErrorProcessor implements ErrorProcessor {
   const InternalDioErrorProcessor();

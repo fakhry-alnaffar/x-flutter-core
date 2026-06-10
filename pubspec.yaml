@@ -1,8 +1,11 @@
-name: onix_flutter_core
-description: Onix Flutter Core — a robust networking, storage, and infrastructure layer for scalable Flutter applications.
+name: x_flutter_core
+description: >-
+  A robust networking, storage, and infrastructure layer for scalable Flutter
+  applications. Built on Dio with Clean Architecture patterns.
 version: 1.0.0
-repository: https://github.com/fakhry-alnaffar/onix-flutter-core
-publish_to: none
+repository: https://github.com/fakhry-alnaffar/x-flutter-core
+homepage: https://github.com/fakhry-alnaffar/x-flutter-core
+issue_tracker: https://github.com/fakhry-alnaffar/x-flutter-core/issues
 
 topics:
   - networking
@@ -28,10 +31,7 @@ dependencies:
   shared_preferences: ^2.5.5
   internet_connection_checker_plus: ^3.0.1
 
-  onix_flutter_core_models:
-    git:
-      url: https://github.com/fakhry-alnaffar/onix-flutter-core-models.git
-      ref: main
+  x_flutter_core_models: ^0.1.4
 
 dev_dependencies:
   flutter_lints: ^6.0.0

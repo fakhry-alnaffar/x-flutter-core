@@ -1,30 +1,32 @@
 import 'package:example/base_api_client_example/data/model/address_model.dart';
 import 'package:example/base_api_client_example/data/model/company_model.dart';
+import 'package:flutter/foundation.dart';
 
+@immutable
 class UserModelList {
-  final List<UserModel>? users;
+  final List<UserModel> users;
 
-  UserModelList({this.users});
+  const UserModelList({this.users = const []});
 
-  factory UserModelList.fromJson(List<dynamic> json) {
-    List<UserModel> users = [];
-    users = json.map((user) => UserModel.fromJson(user)).toList();
-    return UserModelList(users: users);
-  }
+  factory UserModelList.fromJson(List<dynamic> json) => UserModelList(
+        users: json
+            .map((e) => UserModel.fromJson(e as Map<String, dynamic>))
+            .toList(),
+      );
 }
 
+@immutable
 class UserModel {
   final int? id;
   final String? name;
   final String? username;
   final String? email;
   final AddressModel? address;
-
   final String? phone;
   final String? website;
   final CompanyModel? company;
 
-  UserModel({
+  const UserModel({
     this.id,
     this.name,
     this.username,
@@ -36,17 +38,17 @@ class UserModel {
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
-        id: json["id"],
-        name: json["name"],
-        username: json["username"],
-        email: json["email"],
-        address: json["address"] == null
+        id: json['id'] as int?,
+        name: json['name'] as String?,
+        username: json['username'] as String?,
+        email: json['email'] as String?,
+        address: json['address'] == null
             ? null
-            : AddressModel.fromJson(json["address"]),
-        phone: json["phone"],
-        website: json["website"],
-        company: json["company"] == null
+            : AddressModel.fromJson(json['address'] as Map<String, dynamic>),
+        phone: json['phone'] as String?,
+        website: json['website'] as String?,
+        company: json['company'] == null
             ? null
-            : CompanyModel.fromJson(json["company"]),
+            : CompanyModel.fromJson(json['company'] as Map<String, dynamic>),
       );
 }
