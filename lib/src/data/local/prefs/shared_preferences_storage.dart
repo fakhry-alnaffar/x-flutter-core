@@ -1,6 +1,10 @@
 import 'package:x_flutter_core/src/data/local/base/key_value_reloadable_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+/// [KeyValueReloadableStorage] backed by [SharedPreferences].
+///
+/// Supports [String], [bool], [int], [double], and [List<String>] values.
+/// Unsupported types are silently ignored on [put].
 class SharedPreferencesStorage
     extends KeyValueReloadableStorage<SharedPreferences> {
 

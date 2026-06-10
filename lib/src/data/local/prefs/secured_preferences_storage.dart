@@ -1,6 +1,11 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:x_flutter_core/x_flutter_core.dart';
 
+/// [KeyValueStorage] backed by [FlutterSecureStorage].
+///
+/// Values are encrypted on disk using the platform keychain / keystore.
+/// Supports [String], [int], [double], and [bool] values; all types are
+/// serialised to their string representation before writing.
 class SecuredPreferencesStorage
     extends KeyValueStorage<FlutterSecureStorage> {
 
@@ -24,7 +29,7 @@ class SecuredPreferencesStorage
         bool _ => value.toLowerCase() == 'true',
         _ => null,
       };
-      
+
       return (result ?? defaultValue) as K;
     } catch (_) {
       return defaultValue;

@@ -3,7 +3,20 @@ import 'package:x_flutter_core/src/data/remote/base/http_status.dart';
 import 'package:x_flutter_core/src/data/remote/base/processor/error_processor.dart';
 import 'package:x_flutter_core/src/domain/entity/common/data_response.dart';
 
+/// Default [ErrorProcessor] for Dio-based requests.
+///
+/// Maps [DioException] types and HTTP status codes to the appropriate
+/// [DataResponse] error variants:
+///
+/// | Condition | Result |
+/// |-----------|--------|
+/// | connect / send / receive timeout | [NoInternetConnection] |
+/// | 401 Unauthorized | [Unauthorized] |
+/// | 429 Too Many Requests | [TooManyRequests] |
+/// | other 4xx/5xx with custom error handler | [ApiError] |
+/// | anything else | [UndefinedError] |
 class InternalDioErrorProcessor implements ErrorProcessor {
+  /// Creates a const [InternalDioErrorProcessor].
   const InternalDioErrorProcessor();
 
   @override

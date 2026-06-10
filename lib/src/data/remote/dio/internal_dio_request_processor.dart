@@ -11,12 +11,24 @@ import 'package:x_flutter_core/src/data/remote/dio/internal_dio_error_processor.
 import 'package:x_flutter_core/src/domain/entity/common/data_response.dart';
 import 'package:retry/retry.dart';
 
+/// Default [RequestProcessor] implementation for Dio.
+///
+/// Handles connectivity gating, optional retry logic, response parsing, and
+/// error mapping in a single pipeline. Use [DioClientModule.createInternalDioRequestProcessor]
+/// to obtain a pre-configured instance.
 class InternalDioRequestProcessor extends RequestProcessor {
   final ErrorProcessor _errorProcessor;
   final RetryPolicy? _retryPolicy;
   final ConnectionChecker _connectionChecker;
   final OnCustomError? _onCustomError;
 
+  /// Creates an [InternalDioRequestProcessor].
+  ///
+  /// All parameters are optional:
+  /// - [retryPolicy] — omit to disable retries.
+  /// - [errorProcessor] — defaults to [InternalDioErrorProcessor].
+  /// - [connectionChecker] — defaults to [AlwaysHaveConnection].
+  /// - [onCustomError] — global fallback for API-level error parsing.
   InternalDioRequestProcessor({
     RetryPolicy? retryPolicy,
     ErrorProcessor? errorProcessor,

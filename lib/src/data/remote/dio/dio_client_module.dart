@@ -3,17 +3,28 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:x_flutter_core/x_flutter_core.dart';
 import 'package:x_flutter_core/src/data/remote/dio/internal_dio_retry_policy.dart';
 
+/// Factory for creating pre-configured [ApiClient] and [RequestProcessor] instances.
+///
+/// Extend this class in your DI module to override defaults:
+/// ```dart
+/// class AppDioModule extends DioClientModule {}
+/// ```
+/// Then register it as a singleton and call [makeApiClient] and
+/// [createInternalDioRequestProcessor] during app initialisation.
 abstract class DioClientModule {
-  /// Number of attempts to re-execute the request
+  /// Default number of retry attempts (including the original request).
   static const defaultMaxAttemptsCount = 2;
 
-  /// Error codes that require re-execution of the request (without bad request)
-  /// Basic list of error codes that require re-execution of the request
+  /// HTTP status codes that trigger an automatic retry by default.
   static const defaultRetryStatusCodes = [
     HttpStatus.badGateway,
     HttpStatus.serviceUnavailable,
   ];
 
+  /// Creates an [ApiClient] from [params].
+  ///
+  /// The client is configured with [BackgroundTransformer], a pretty logger
+  /// (debug builds only), and all interceptors listed in [params].
   ApiClient makeApiClient(ApiClientParams params) => ApiClient(
         interceptors: params.interceptors,
         options: BaseOptions(
@@ -28,6 +39,9 @@ abstract class DioClientModule {
         ),
       );
 
+  /// Creates an [InternalDioRequestProcessor] with sensible defaults.
+  ///
+  /// On Flutter Web [connectionChecker] is ignored (always-connected).
   RequestProcessor createInternalDioRequestProcessor({
     RetryPolicy? retryPolicy,
     ConnectionChecker? connectionChecker,

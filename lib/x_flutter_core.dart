@@ -1,3 +1,19 @@
+/// x_flutter_core — networking, storage, and infrastructure for Flutter.
+///
+/// Provides a Dio-based HTTP client with caching, retry, and proxy support,
+/// a clean-architecture request/error processor pipeline, secure and shared
+/// preferences storage, and connectivity checking utilities.
+///
+/// ## Quick start
+/// ```dart
+/// final module = _MyDioModule();
+/// final client = module.makeApiClient(ApiClientParams(
+///   baseUrl: 'https://api.example.com/',
+///   defaultConnectTimeout: 5000,
+///   defaultReceiveTimeout: 5000,
+/// ));
+/// final processor = module.createInternalDioRequestProcessor();
+/// ```
 library;
 
 export 'src/data/local/prefs/shared_preferences_storage.dart';

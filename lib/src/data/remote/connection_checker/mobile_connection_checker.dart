@@ -3,11 +3,18 @@ import 'package:internet_connection_checker_plus/internet_connection_checker_plu
 import 'package:x_flutter_core/x_flutter_core.dart';
 import 'package:x_flutter_core/src/data/remote/extension/connectivity_ext.dart';
 
+/// A [ConnectionChecker] for mobile and desktop platforms.
+///
+/// Uses a two-stage check for accuracy without unnecessary network round trips:
+/// 1. OS connectivity state via [Connectivity] (fast, no network I/O).
+/// 2. Live DNS reachability via [InternetConnection] (only if stage 1 passes).
 class MobileConnectionChecker implements ConnectionChecker {
   final InternetConnection _connection;
-
   final Connectivity _connectivity;
 
+  /// Creates a [MobileConnectionChecker].
+  ///
+  /// Pass custom [internetConnection] and [connectivity] instances for testing.
   MobileConnectionChecker({
     InternetConnection? internetConnection,
     Connectivity? connectivity,
