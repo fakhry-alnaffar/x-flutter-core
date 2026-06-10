@@ -1,3 +1,7 @@
+## 1.0.1
+
+* Added dartdoc comments to all public API elements
+
 ## 1.0.0
 
 * Renamed package from `onix_flutter_core` to `x_flutter_core`
