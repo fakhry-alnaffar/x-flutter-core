@@ -31,6 +31,7 @@ abstract class ServerErrorMapper {
     try {
       return switch (response) {
         DataResponseSuccess() => ApiUnknownFailure(),
+        DataResponseFailure(:final failure) => failure,
         UndefinedError(:final errorObject, :final statusCode) =>
             ApiUndefinedFailure(
               statusCode: statusCode,

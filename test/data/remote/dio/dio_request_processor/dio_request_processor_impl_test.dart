@@ -479,12 +479,9 @@ void main() {
     test('ConnectivityResult.none test', () async {
       const mockedData = 'test';
 
+      // Stub the underlying mock — MobileConnectionChecker is concrete, not a mock.
       when(connectivity.checkConnectivity()).thenAnswer(
         (_) async => [ConnectivityResult.none],
-      );
-
-      when(checker.hasConnection()).thenAnswer(
-        (_) async => false,
       );
 
       Future<Response<String>> mockedRequest() {
@@ -509,11 +506,11 @@ void main() {
     test('ConnectivityResult.mobile && hasConnection test', () async {
       const mockedData = 'test';
 
+      // Stub the underlying mocks directly — MobileConnectionChecker is concrete.
       when(connectivity.checkConnectivity()).thenAnswer(
         (_) async => [ConnectivityResult.mobile],
       );
-
-      when(checker.hasConnection()).thenAnswer(
+      when(internetConnection.hasInternetAccess).thenAnswer(
         (_) async => true,
       );
 

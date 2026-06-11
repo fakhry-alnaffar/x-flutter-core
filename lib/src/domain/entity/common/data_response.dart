@@ -1,3 +1,5 @@
+import 'package:x_flutter_core_models/x_flutter_core_models.dart';
+
 /// Sealed result type for all HTTP responses.
 ///
 /// Every [RequestProcessor.processRequest] call returns one of these variants.
@@ -6,6 +8,7 @@
 /// ```dart
 /// switch (response) {
 ///   DataResponseSuccess(:final data) => // use data
+///   DataResponseFailure(:final failure) => // already-mapped domain failure
 ///   NoInternetConnection() => // show offline UI
 ///   Unauthorized() => // redirect to login
 ///   TooManyRequests() => // show rate-limit message
@@ -59,6 +62,9 @@ sealed class DataResponse<T> {
 
   /// Creates a [CanceledRequest] response.
   factory DataResponse.canceledRequest() => CanceledRequest();
+
+  /// Creates a [DataResponseFailure] carrying a pre-mapped domain [failure].
+  factory DataResponse.failure(Failure failure) => DataResponseFailure(failure);
 }
 
 /// A successful response containing parsed [data].
@@ -125,4 +131,14 @@ final class TooManyRequests<T> extends DataResponse<T> {
 /// Indicates the request was cancelled via a Dio [CancelToken].
 final class CanceledRequest<T> extends DataResponse<T> {
   const CanceledRequest();
+}
+
+/// A response that directly carries a pre-mapped domain [Failure].
+///
+/// Use when the failure type is already known and no further mapping is needed,
+/// e.g. when composing results from lower-level services that already produce
+/// [Failure] objects.
+final class DataResponseFailure<T> extends DataResponse<T> {
+  final Failure failure;
+  const DataResponseFailure(this.failure);
 }
