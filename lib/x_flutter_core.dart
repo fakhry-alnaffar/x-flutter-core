@@ -68,9 +68,9 @@ export 'src/data/remote/base/retry_policy.dart' show RetryPolicy;
 export 'src/data/remote/base/cache_interceptor.dart';
 export 'src/data/remote/dio/params/api_client_params.dart' show ApiClientParams;
 
-// Domain utilities
-export 'src/domain/common/converter/mapper.dart';
+// DataResponse — canonical transport result type
+// Mapper, OperationStatus are provided via the x_flutter_core_models re-export above.
 export 'src/domain/entity/common/data_response.dart';
-export 'src/domain/entity/common/operation_status.dart' show OperationStatus;
-export 'src/domain/entity/common/base_empty_response.dart'
-    show BaseEmptyResponse;
+
+// DTO utilities
+export 'src/data/remote/base/base_empty_response.dart' show BaseEmptyResponse;
