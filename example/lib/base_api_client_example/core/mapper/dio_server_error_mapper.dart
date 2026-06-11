@@ -1,7 +1,6 @@
 import 'package:example/base_api_client_example/data/model/default_api_error.dart';
 import 'package:example/base_api_client_example/data/model/validation_api_error.dart';
 import 'package:x_flutter_core/x_flutter_core.dart';
-import 'package:x_flutter_core_models/x_flutter_core_models.dart';
 
 class DioServerErrorMapper extends ServerErrorMapper {
   static final DioServerErrorMapper _singleton =

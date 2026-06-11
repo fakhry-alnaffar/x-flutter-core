@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:x_flutter_core/src/domain/entity/common/data_response.dart';
-import 'package:x_flutter_core_models/x_flutter_core_models.dart'
-    hide DataResponse, DataResponseSuccess;
+import 'package:x_flutter_core_models/x_flutter_core_models.dart';
 
 /// Maps a [DataResponse] error variant to the matching [Failure] type from
 /// `x_flutter_core_models`.
