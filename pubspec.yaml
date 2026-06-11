@@ -31,7 +31,11 @@ dependencies:
   shared_preferences: ^2.5.5
   internet_connection_checker_plus: ^3.0.1
 
-  x_flutter_core_models: ^1.0.0
+  x_flutter_core_models:
+    git:
+      url: https://github.com/fakhry-alnaffar/x-flutter-core-models.git
+      ref: main
+
 
 dev_dependencies:
   flutter_lints: ^6.0.0
