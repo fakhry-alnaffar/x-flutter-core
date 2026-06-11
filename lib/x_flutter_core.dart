@@ -72,5 +72,8 @@ export 'src/data/remote/dio/params/api_client_params.dart' show ApiClientParams;
 // Mapper, OperationStatus are provided via the x_flutter_core_models re-export above.
 export 'src/domain/entity/common/data_response.dart';
 
+// Result — application/domain layer result type (distinct from DataResponse)
+export 'src/domain/entity/common/result.dart';
+
 // DTO utilities
 export 'src/data/remote/base/base_empty_response.dart' show BaseEmptyResponse;
